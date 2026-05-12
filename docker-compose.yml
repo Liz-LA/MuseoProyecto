@@ -6,6 +6,7 @@ services:
       - "8000:80"
     volumes:
       - ./src:/var/www/html
+      - ./src/docker/apache.conf:/etc/apache2/sites-enabled/000-default.conf
     depends_on:
       - mysql
     command: >
