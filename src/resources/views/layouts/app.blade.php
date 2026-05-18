@@ -21,7 +21,12 @@
         <x-banner />
 
         <div class="min-h-screen bg-gray-100">
-            @livewire('navigation-menu')
+            
+            @if(auth()->user()->role === 'admin')
+                @include('admin.navigation-menu')
+            @else
+                @include('visitor.navigation-menu')
+            @endif
 
             <!-- Page Heading -->
             @if (isset($header))
