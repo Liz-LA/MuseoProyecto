@@ -38,3 +38,28 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [VisitorController::class, 'index'])->name('dashboard');
 });
+
+//Admin
+Route::middleware(['auth'])->prefix('admin')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+
+    // ── Admin - Usuarios ──
+    Route::get('/usuarios',           [AdminController::class, 'usuarios'])->name('admin.usuarios');
+    Route::post('/usuarios',          [AdminController::class, 'usuariosStore'])->name('admin.usuarios.store');
+    Route::delete('/usuarios/{id}',   [AdminController::class, 'usuariosDestroy']);
+
+    // ── Admin - Exposiciones y Horarios ──
+    Route::get('/exposiciones',              [AdminController::class, 'exposiciones'])->name('admin.exposiciones');
+    Route::post('/exposiciones',             [AdminController::class, 'exposicionesStore'])->name('admin.exposiciones.store');
+    Route::put('/exposiciones/{id}',         [AdminController::class, 'exposicionesUpdate']);
+    Route::delete('/exposiciones/{id}',      [AdminController::class, 'exposicionesDestroy']);
+
+    Route::post('/horarios',           [AdminController::class, 'horariosStore'])->name('admin.horarios.store');
+    Route::put('/horarios/{id}',       [AdminController::class, 'horariosUpdate']);
+    Route::delete('/horarios/{id}',    [AdminController::class, 'horariosDestroy']);
+
+    // ── Admin - Ventas y Reservas ──
+    Route::get('/ventas',                        [AdminController::class, 'ventas'])->name('admin.ventas');
+    Route::patch('/reservas/{codigo}/cancelar',  [AdminController::class, 'reservasCancelar']);
+    Route::get('/ventas/exportar',               [AdminController::class, 'ventasExportar'])->name('admin.ventas.exportar');
+});
