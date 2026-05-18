@@ -7,37 +7,37 @@
             </h2>
         </div>
     </x-slot>
-
+ 
     <div class="py-10 bg-[#F5F1EC] min-h-screen">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-
+ 
             {{-- KPIs --}}
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
                 <div class="bg-white border border-[#C5BBB0]/30 p-5">
                     <p class="text-[10px] uppercase tracking-[0.15em] text-[#8C8070] mb-2">Reservas hoy</p>
-                    <p class="font-serif text-3xl text-[#1A1612] leading-none mb-1">38</p>
-                    <p class="text-[11px] text-[#2E6E6A]">+12% vs ayer</p>
+                    <p class="font-serif text-3xl text-[#1A1612] leading-none mb-1">{{ $kpis['reservas_hoy'] ?? 0 }}</p>
+                    <p class="text-[11px] text-[#8C8070]">Datos desde BD</p>
                 </div>
                 <div class="bg-white border border-[#C5BBB0]/30 p-5">
                     <p class="text-[10px] uppercase tracking-[0.15em] text-[#8C8070] mb-2">Visitantes esta semana</p>
-                    <p class="font-serif text-3xl text-[#1A1612] leading-none mb-1">214</p>
-                    <p class="text-[11px] text-[#2E6E6A]">+8% vs semana anterior</p>
+                    <p class="font-serif text-3xl text-[#1A1612] leading-none mb-1">{{ $kpis['visitantes_semana'] ?? 0 }}</p>
+                    <p class="text-[11px] text-[#8C8070]">Semana actual</p>
                 </div>
                 <div class="bg-white border border-[#C5BBB0]/30 p-5">
                     <p class="text-[10px] uppercase tracking-[0.15em] text-[#8C8070] mb-2">Ocupación promedio</p>
-                    <p class="font-serif text-3xl text-[#1A1612] leading-none mb-1">74%</p>
+                    <p class="font-serif text-3xl text-[#1A1612] leading-none mb-1">{{ $kpis['ocupacion'] ?? 0 }}%</p>
                     <p class="text-[11px] text-[#8C8070]">Capacidad óptima</p>
                 </div>
                 <div class="bg-white border border-[#C5BBB0]/30 p-5">
                     <p class="text-[10px] uppercase tracking-[0.15em] text-[#8C8070] mb-2">Ingresos del mes</p>
-                    <p class="font-serif text-3xl text-[#1A1612] leading-none mb-1">$48k</p>
-                    <p class="text-[11px] text-[#2E6E6A]">+22% vs mes anterior</p>
+                    <p class="font-serif text-3xl text-[#1A1612] leading-none mb-1">${{ number_format($kpis['ingresos_mes'] ?? 0, 2) }}</p>
+                    <p class="text-[11px] text-[#8C8070]">Mes actual</p>
                 </div>
             </div>
-
+ 
             {{-- Secciones de administración --}}
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
+ 
                 {{-- Usuarios --}}
                 <a href="{{ route('admin.usuarios') }}" class="group bg-white border border-[#C5BBB0]/30 hover:border-[#C9A84C] transition-colors overflow-hidden block">
                     <div class="bg-[#1A1612] px-6 py-5">
@@ -48,11 +48,11 @@
                         <p class="text-[13px] text-[#8C8070] leading-relaxed mb-6">Gestiona las cuentas registradas: administradores y visitantes. Cambia roles, activa o desactiva accesos.</p>
                         <div class="flex items-center justify-between">
                             <span class="text-[11px] uppercase tracking-[0.15em] text-[#C9A84C] group-hover:underline">Gestionar →</span>
-                            <span class="text-[10px] text-[#C5BBB0]">152 registrados</span>
+                            <span class="text-[10px] text-[#C5BBB0]">{{ $moduleCounts['usuarios'] ?? 0 }} registrados</span>
                         </div>
                     </div>
                 </a>
-
+ 
                 {{-- Obras / Exposiciones --}}
                 <a href="{{ route('admin.exposiciones') }}" class="group bg-white border border-[#C5BBB0]/30 hover:border-[#C9A84C] transition-colors overflow-hidden block">
                     <div class="bg-[#1A1612] px-6 py-5">
@@ -63,11 +63,11 @@
                         <p class="text-[13px] text-[#8C8070] leading-relaxed mb-6">Administra el catálogo de exposiciones, obras por sala, horarios de visita y capacidades disponibles.</p>
                         <div class="flex items-center justify-between">
                             <span class="text-[11px] uppercase tracking-[0.15em] text-[#C9A84C] group-hover:underline">Gestionar →</span>
-                            <span class="text-[10px] text-[#C5BBB0]">6 exposiciones activas</span>
+                            <span class="text-[10px] text-[#C5BBB0]">{{ $moduleCounts['exposiciones'] ?? 0 }} exposiciones</span>
                         </div>
                     </div>
                 </a>
-
+ 
                 {{-- Ventas --}}
                 <a href="{{ route('admin.ventas') }}" class="group bg-white border border-[#C5BBB0]/30 hover:border-[#C9A84C] transition-colors overflow-hidden block">
                     <div class="bg-[#1A1612] px-6 py-5">
@@ -78,11 +78,10 @@
                         <p class="text-[13px] text-[#8C8070] leading-relaxed mb-6">Consulta y gestiona las reservas activas. Cancela entradas, exporta reportes y revisa estadísticas de ingresos.</p>
                         <div class="flex items-center justify-between">
                             <span class="text-[11px] uppercase tracking-[0.15em] text-[#C9A84C] group-hover:underline">Gestionar →</span>
-                            <span class="text-[10px] text-[#C5BBB0]">38 reservas hoy</span>
+                            <span class="text-[10px] text-[#C5BBB0]">{{ $moduleCounts['reservas_hoy'] ?? 0 }} reservas hoy</span>
                         </div>
                     </div>
                 </a>
-
             </div>
         </div>
     </div>

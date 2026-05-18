@@ -59,7 +59,7 @@
                 @open-horario-modal.window="horarioModal = true; editingHorario = null"
             >
 
-                {{-- ── PANEL: EXPOSICIONES ── --}}
+                {{-- ── GRID: EXPOSICIONES ── --}}
                 <div>
                     {{-- Grid de exposiciones --}}
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
@@ -86,33 +86,9 @@
                             </div>
                         </div>
                         @empty
-                        {{-- Datos de muestra --}}
-                        @foreach([
-                            ['🏛️','Arte Clásico','Sala A','120','Permanente','#F5F0E8'],
-                            ['🦕','Historia Natural','Sala B','150','Temporal','#EAF0E8'],
-                            ['🎨','Arte Contemporáneo','Sala C','100','Permanente','#EEE8F0'],
-                            ['🏺','Civilizaciones Antiguas','Sala D','180','Especial','#F0EEE8'],
-                            ['🚀','Ciencia y Tecnología','Sala E','130','Temporal','#E8EEF0'],
-                            ['🌍','Geografía y Cultura','Sala F','110','Permanente','#F0E8EE'],
-                        ] as [$emoji, $nombre, $sala, $precio, $tipo, $bg])
-                        <div class="bg-white border border-[#C5BBB0]/30 hover:border-[#C9A84C]/50 transition-colors overflow-hidden">
-                            <div class="h-20 flex items-center justify-center text-4xl" style="background: {{ $bg }}">{{ $emoji }}</div>
-                            <div class="p-4">
-                                <p class="font-serif text-sm text-[#1A1612] mb-1">{{ $nombre }}</p>
-                                <p class="text-[11px] text-[#8C8070] mb-3">{{ $sala }} · ${{ $precio }} MXN · {{ $tipo }}</p>
-                                <div class="flex gap-2">
-                                    <button @click="expoModal = true"
-                                        class="border border-[#C5BBB0]/40 px-3 py-1 text-[10px] uppercase tracking-[0.1em] text-[#1A1612] hover:border-[#C9A84C] hover:text-[#C9A84C] transition-colors">
-                                        Editar
-                                    </button>
-                                    <button @click="confirmModal = true; deleteType = 'expo'"
-                                        class="border border-[#C5BBB0]/40 px-3 py-1 text-[10px] uppercase tracking-[0.1em] text-[#8B2020] hover:border-[#8B2020] hover:bg-[#8B2020] hover:text-white transition-colors">
-                                        Eliminar
-                                    </button>
-                                </div>
-                            </div>
+                        <div class="col-span-full bg-white border border-[#C5BBB0]/30 p-8 text-center text-[13px] text-[#8C8070]">
+                            No hay exposiciones registradas en la base de datos todavía.
                         </div>
-                        @endforeach
                         @endforelse
 
                     </div>
@@ -140,26 +116,9 @@
                             </div>
                         </div>
                         @empty
-                        @foreach(['10:00','11:00','12:00','13:00','14:00','15:00','17:00','18:00'] as $i => $hora)
-                        @php
-                            $caps = [30,30,25,30,30,30,25,20];
-                            $dias = ['Lunes a Domingo','Lunes a Domingo','Lunes a Viernes','Martes a Domingo','Lunes a Domingo','Lunes a Domingo','Lunes a Domingo','Lunes a Sábado'];
-                        @endphp
-                        <div class="flex items-center gap-5 px-6 py-4 hover:bg-[#C9A84C]/[0.03] transition-colors">
-                            <span class="font-serif text-xl text-[#1A1612] w-20">{{ $hora }}</span>
-                            <span class="flex-1 text-[13px] text-[#8C8070]">Capacidad: {{ $caps[$i] }} personas &nbsp;·&nbsp; {{ $dias[$i] }}</span>
-                            <div class="flex gap-2">
-                                <button @click="horarioModal = true"
-                                    class="border border-[#C5BBB0]/40 px-3 py-1 text-[10px] uppercase tracking-[0.1em] text-[#1A1612] hover:border-[#C9A84C] hover:text-[#C9A84C] transition-colors">
-                                    Editar
-                                </button>
-                                <button @click="confirmModal = true; deleteType = 'horario'"
-                                    class="border border-[#C5BBB0]/40 px-3 py-1 text-[10px] uppercase tracking-[0.1em] text-[#8B2020] hover:border-[#8B2020] hover:bg-[#8B2020] hover:text-white transition-colors">
-                                    Eliminar
-                                </button>
-                            </div>
+                        <div class="px-6 py-8 text-center text-[13px] text-[#8C8070]">
+                            No hay horarios registrados en la base de datos todavía.
                         </div>
-                        @endforeach
                         @endforelse
                     </div>
                 </div>
@@ -179,7 +138,7 @@
                                 <template x-if="editingExpo"><input type="hidden" name="_method" value="PUT"></template>
                                 <div class="flex flex-col gap-1.5 mb-4">
                                     <label class="text-[10px] uppercase tracking-[0.15em] text-[#8C8070]">Nombre</label>
-                                    <input type="text" name="nombre" placeholder="Nombre de la exposición"
+                                    <input type="text" name="nombre" placeholder="Nombre de la exposición" required
                                         class="border border-[#C5BBB0]/40 bg-[#FAF8F4] px-3 py-2 text-sm text-[#1A1612] focus:outline-none focus:border-[#C9A84C] rounded-none">
                                 </div>
                                 <div class="grid grid-cols-2 gap-4 mb-4">
@@ -193,7 +152,7 @@
                                     </div>
                                     <div class="flex flex-col gap-1.5">
                                         <label class="text-[10px] uppercase tracking-[0.15em] text-[#8C8070]">Precio (MXN)</label>
-                                        <input type="number" name="precio" placeholder="120"
+                                        <input type="number" name="precio" placeholder="120" min="0" step="0.01"
                                             class="border border-[#C5BBB0]/40 bg-[#FAF8F4] px-3 py-2 text-sm text-[#1A1612] focus:outline-none focus:border-[#C9A84C] rounded-none">
                                     </div>
                                 </div>
@@ -241,12 +200,12 @@
                                 <div class="grid grid-cols-2 gap-4 mb-4">
                                     <div class="flex flex-col gap-1.5">
                                         <label class="text-[10px] uppercase tracking-[0.15em] text-[#8C8070]">Hora inicio</label>
-                                        <input type="time" name="hora" value="10:00"
+                                        <input type="time" name="hora" value="10:00" required
                                             class="border border-[#C5BBB0]/40 bg-[#FAF8F4] px-3 py-2 text-sm text-[#1A1612] focus:outline-none focus:border-[#C9A84C] rounded-none">
                                     </div>
                                     <div class="flex flex-col gap-1.5">
                                         <label class="text-[10px] uppercase tracking-[0.15em] text-[#8C8070]">Capacidad máxima</label>
-                                        <input type="number" name="capacidad" placeholder="30"
+                                        <input type="number" name="capacidad" placeholder="30" min="1"
                                             class="border border-[#C5BBB0]/40 bg-[#FAF8F4] px-3 py-2 text-sm text-[#1A1612] focus:outline-none focus:border-[#C9A84C] rounded-none">
                                     </div>
                                 </div>
